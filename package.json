@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/tanyatroyanova/automation#readme",
   "devDependencies": {
+    "allure-commandline": "^2.13.0",
     "fs-extra": "^9.0.0"
   },
   "dependencies": {
