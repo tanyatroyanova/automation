@@ -21,7 +21,7 @@ describe("Pull of tests 1", function() {
         expect(yandex_mail.checkUserName()).toEqual(login);
     });
 
-    fit("Test #2: Яндекс почта - логаут", async function() {
+    it("Test #2: Яндекс почта - логаут", async function() {
         await yandex_mail.clickOnOpenMailLoginPage();
         await yandex_mail.swithToTheTab(1);
         await yandex_mail.insertLogin();
