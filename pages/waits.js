@@ -2,7 +2,7 @@ class Waits {
     constructor() {
         this.waitForVisibleElement = async function(elem) {
             let until = protractor.ExpectedConditions;
-            await browser.wait(until.presenceOf(elem), 10000, `Element taking too long to appear in the DOM`);
+            await browser.wait(until.presenceOf(elem), 40000, `Element taking too long to appear in the DOM`);
         };
     };
     }  

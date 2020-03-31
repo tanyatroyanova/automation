@@ -18,7 +18,7 @@ exports.config = {
   
     // Options to be passed to Jasmine.
     jasmineNodeOpts: {
-      defaultTimeoutInterval: 60000
+      defaultTimeoutInterval: 1000000
     },
   
     restartBrowserBetweenTests: true,
