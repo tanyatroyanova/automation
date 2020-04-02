@@ -11,7 +11,7 @@ describe("Pull of tests 1", function() {
         await yandex_mail.get('https://yandex.by/');
     })
 
-    fit("Test #1: Логин на яндекс почту", async function() {
+    it("Test #1: Логин на яндекс почту", async function() {
         await yandex_mail.clickOnOpenMailLoginPage();
         await yandex_mail.swithToTheTab(1);
         let login = await yandex_mail.insertLogin();
@@ -21,7 +21,7 @@ describe("Pull of tests 1", function() {
         expect(yandex_mail.checkUserName()).toEqual(login);
     });
 
-    fit("Test #2: Яндекс почта - логаут", async function() {
+    it("Test #2: Яндекс почта - логаут", async function() {
         await yandex_mail.clickOnOpenMailLoginPage();
         await yandex_mail.swithToTheTab(1);
         await yandex_mail.insertLogin();
@@ -32,7 +32,7 @@ describe("Pull of tests 1", function() {
         await yandex_mail.checkThatUserIsLogout();
     });
 
-    fit("Test #3: Яндекс почта - невалидный пароль", async function() {
+    it("Test #3: Яндекс почта - невалидный пароль", async function() {
         await yandex_mail.clickOnOpenMailLoginPage();
         await yandex_mail.swithToTheTab(1);
         await yandex_mail.insertLogin("AutotestUser");
@@ -43,7 +43,7 @@ describe("Pull of tests 1", function() {
         await expect(errorMessage).toBe('Неверный пароль');
     });
 
-    fit("Test #4: Яндекс почта - невалидный логин", async function() {
+    it("Test #4: Яндекс почта - невалидный логин", async function() {
         await yandex_mail.clickOnOpenMailLoginPage();
         await yandex_mail.swithToTheTab(1);
         await yandex_mail.insertLogin("NoAutotestUser");
@@ -54,7 +54,7 @@ describe("Pull of tests 1", function() {
         await expect(errorMessage).toBe('Такого аккаунта нет');
     });
 
-    fit("Test #5: Яндекс - навигация", async function() {
+    it("Test #5: Яндекс - навигация", async function() {
         // Видео
         await yandex_mail.clickOnTheLink(yandex_mail.videoLink);
         await yandex_mail.checkUrl('video')
