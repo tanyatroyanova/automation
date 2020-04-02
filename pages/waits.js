@@ -7,7 +7,7 @@ class Waits {
 
         this.waitForURL = async function(url) {
             let until = protractor.ExpectedConditions;
-            await browser.wait(until.urlContains(url), 40000, `URL is not changed`);
+            await browser.wait(until.urlContains(url), 40000, `URL is not correspond`);
         };
     };
     }  
