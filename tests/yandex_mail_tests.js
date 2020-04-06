@@ -43,7 +43,7 @@ describe("Pull of tests 1", function() {
         await expect(errorMessage).toBe('Неверный пароль');
     });
 
-    fit("Test #4: Яндекс почта - невалидный логин", async function() {
+    it("Test #4: Яндекс почта - невалидный логин", async function() {
         await yandex_mail.clickOnOpenMailLoginPage();
         await yandex_mail.swithToTheTab(1);
         await yandex_mail.insertLogin("NoAutotestUser");
@@ -54,7 +54,7 @@ describe("Pull of tests 1", function() {
         await expect(errorMessage).toBe('Такого аккаунта нет');
     });
 
-    fit("Test #5: Яндекс - навигация", async function() {
+    it("Test #5: Яндекс - навигация", async function() {
         // Видео
         await yandex_mail.clickOnTheLink(yandex_mail.videoLink);
         await yandex_mail.checkUrl('video')

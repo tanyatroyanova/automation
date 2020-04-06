@@ -6,7 +6,16 @@ exports.config = {
     // Capabilities to be passed to the webdriver instance.
     capabilities: {
       'browserName': 'chrome',
-      'chromeOptions': { 'args': ['incognito'] } 
+      'chromeOptions': { 
+        'args': ['incognito', '--headless'],
+        'excludeSwitches': ['enable-automation'], // - отключить infobar в chrome
+        'prefs': {
+          'download': {
+              'prompt_for_download': false,
+              'default_directory': '/downloads/',
+          }
+        }
+      } 
     },
   
     // Framework to use. Jasmine is recommended.
