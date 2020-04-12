@@ -32,7 +32,7 @@ describe("Actions", function() {
         browser.sleep(10000);
     });
 
-    fit('JS click and JS Input', async () => {
+    it('JS click and JS Input', async () => {
         await browser.executeScript("document.getElementsByClassName('input__control input__input mini-suggest__input').value='hello!!!'");
         await browser.executeScript("arguments[0].click()", yandex_mail.musicLink);
     });
