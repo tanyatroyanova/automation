@@ -77,7 +77,7 @@ fdescribe("Pull of tests #2", function() {
         expect(artistInThePopAlbums).toBe("Metallica");    
     });
 
-    it('Test 6: Яндекс - музыка - вопроизведение', async function() {
+    fit('Test 6: Яндекс - музыка - вопроизведение', async function() {
         await yandex_mail.musicLink.click();
         await yandex_mail.swithToTheTab(1);
         await market_page.insertTextInInput(market_page.musicSearchButton, "beyo");
@@ -89,7 +89,6 @@ fdescribe("Pull of tests #2", function() {
         expect(icon).toBeTrue;
         await waits.waitForVisibleElement(market_page.playIcon);
         await market_page.pauseIcon.click();
-        await browser.sleep(5000);
         iconTitle = await market_page.playIcon.isDisplayed();
         expect(iconTitle).toBeTrue;    
     });
