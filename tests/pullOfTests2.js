@@ -14,10 +14,12 @@ fdescribe("Pull of tests #2", function() {
         await yandex_mail.get('https://yandex.by/');
     })
 
-    fit('Test 1: Яндекс маркет - добавление в сравнение', async function() {
+    it('Test 1: Яндекс маркет - добавление в сравнение', async function() {
         await yandex_mail.marketLink.click();
         await yandex_mail.swithToTheTab(1);
         await market_page.insertTextInInput(market_page.searchInput, 'Note 8');
+        await waits.waitForVisibleElement(market_page.searchButton);
+        await market_page.searchButton.click();
         await market_page.addToElementsToCompare();
         let firstElem = market_page.firstElement.getAttribute('title');
         let secondElem = market_page.secondElement.getAttribute('title');
@@ -28,10 +30,12 @@ fdescribe("Pull of tests #2", function() {
         expect(secondElem).toEqual(secondElemInCompare);
     });
 
-    fit('Test 2: Удаление добавленных товаров', async function() {
+    it('Test 2: Удаление добавленных товаров', async function() {
         await yandex_mail.marketLink.click();
         await yandex_mail.swithToTheTab(1);
         await market_page.insertTextInInput(market_page.searchInput, 'Note 8');
+        await waits.waitForVisibleElement(market_page.searchButton);
+        await market_page.searchButton.click();
         await market_page.addToElementsToCompare();
         await market_page.openCompare();
         await market_page.clearTheCompare();
@@ -39,21 +43,54 @@ fdescribe("Pull of tests #2", function() {
         expect(market_page.emptyContent.isDisplayed()).toBe(true);
     });
 
-    it('Test 3: Яндекс маркет - сортировка по цене', async function() {
+    fit('Test 3: Яндекс маркет - сортировка по цене', async function() {
         await yandex_mail.marketLink.click();
         await yandex_mail.swithToTheTab(1);
         await market_page.openElectronicCategory();
         await market_page.sortByCena();
         await market_page.sortByCena();
-        let cenaArr = element(by.className("n-snippet-card2__main-price-wrapper")).getText();
-        let sortedCenaArr = cenaArr;
-        await market_page.sortArr(sortedCenaArr);
-        expect(cenaArr).toEqual(sortedCenaArr);
+        let res = await market_page.checkSortOfCena();
+        expect(res).toBeTrue;
     });
-    /* - Яндекс маркет - сортировка по тегу:
-1. Перейти на https://yandex.by/
-2. В навигации над строкой поиска кликнуть на маркет
-3. В категории бытовая техника выбрать холодильники 
-4. Выбрать тег "Шириной до 50"
-5. Убедиться, что отсортированы оп ширине  */
+
+    it('Test 4: Яндекс маркет - сортировка по тегу', async function() {
+        await yandex_mail.marketLink.click();
+        await yandex_mail.swithToTheTab(1);
+        await market_page.openHolodilnikiCategory();
+        await market_page.insertTextInInput(market_page.widthDo, 50);
+        let width = await market_page.getWidthOfHolodilnik();
+        console.log(width);
+        expect(width).toBeTrue;   
+    });
+
+    it('Test 5: Яндекс - музыка', async function() {
+        await yandex_mail.musicLink.click();
+        await yandex_mail.swithToTheTab(1);
+        await market_page.insertTextInInput(market_page.musicSearchButton, "Metal");
+        await waits.waitForVisibleElement(market_page.metalikaLink);
+        await market_page.metalikaLink.click();
+        await waits.waitForVisibleElement(market_page.ispolnitel);
+        let ispolnitel = market_page.ispolnitel.getText();
+        await waits.waitForVisibleElement(market_page.artistInThePopAlbums);
+        let artistInThePopAlbums = market_page.artistInThePopAlbums.getText();
+        expect(ispolnitel).toBe("Metallica");
+        expect(artistInThePopAlbums).toBe("Metallica");    
+    });
+
+    it('Test 6: Яндекс - музыка - вопроизведение', async function() {
+        await yandex_mail.musicLink.click();
+        await yandex_mail.swithToTheTab(1);
+        await market_page.insertTextInInput(market_page.musicSearchButton, "beyo");
+        await waits.waitForVisibleElement(market_page.beyonceLink);
+        await market_page.beyonceLink.click();
+        await market_page.clickOnFirstPopTrack();
+        await waits.waitForVisibleElement(market_page.pauseIcon);
+        let icon = await market_page.pauseIcon.isDisplayed();
+        expect(icon).toBeTrue;
+        await waits.waitForVisibleElement(market_page.playIcon);
+        await market_page.pauseIcon.click();
+        await browser.sleep(5000);
+        iconTitle = await market_page.playIcon.isDisplayed();
+        expect(iconTitle).toBeTrue;    
+    });
 });

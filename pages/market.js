@@ -31,14 +31,29 @@ class Market_page {
         this.clearCompare = element(by.className("n-compare-toolbar__action-clear link")); 
         this.emptyContent = element(by.className('n-compare-empty__text'));
         this.camerasLink = element(by.linkText('Экшн-камеры'));
-        //this.electronicaLink = element(by.linkText('Электроника'));
         this.electronicaLink = element(by.css('[href*="/catalog--elektronika/54440"]'));
         this.categoriesButton = element(by.className('_3Lwc_UVFq4'));
-        this.sortByCenaElem = element(by.xpath("(//*[contains(@class,'n-filter-sorter i-bem')])[2]"))
-        this.arrayOfCena = element(by.className("n-snippet-card2__main-price-wrapper"));
+        this.sortByCenaElem = element(by.xpath("(//*[contains(@class,'n-filter-sorter i-bem')])[2]"));
+        this.arrayOfCena = element.all(by.css(".n-snippet-card2__main-price-wrapper .price"));
+        this.technika = element(by.xpath("(//*[contains(@class,'_35SYuInI1T _1vnugfYUli')])[3]"));
+        this.holodilniki = element(by.linkText('Холодильники'));
+        this.widthDo = element(by.xpath("(//*[contains(@class,'_2yK7W3SWQ- _1f2usTwyAs')])[3]"));
+        this.widthOfTheElem = element.all(by.css('.n-snippet-card2__desc-item'));
+        this.processBar = element.all(by.css(".spin2_progress_yes")).get(0);
+
+        this.musicSearchButton = element(by.className("d-input__field deco-input deco-input_suggest"));
+        this.ispolnitel = element(by.className("page-artist__title typo-h1 typo-h1_big"));
+        this.metalikaLink = element(by.css('[href*="/artist/3121"]'));
+        this.artistInThePopAlbums = element(by.className("album__artist deco-typo-secondary typo-add"));
+        this.beyonceLink = element(by.css('[href*="/artist/27995"]'));
+        this.firstTrack = element.all(by.css(".d-track .entity-cover__image")).first();
+        
+        this.playFirstPopTrack = element(by.className("d-button-play__wrap"));
+        this.pauseIcon = element(by.css(".deco-player-controls .player-controls__btn_pause div"));
+        this.playIcon = element(by.css(".deco-player-controls .player-controls__btn_play div"));
         
         this.get = async function() {
-            browser.waitForAngularEnabled(false); 
+            await browser.waitForAngularEnabled(true); 
             await browser.get("https://market.yandex.by/catalog--mobilnye-telefony-v-minske/54726/list?local-offers-first=0&onstock=1");
         };
 
@@ -54,9 +69,8 @@ class Market_page {
             element.click();
         };
         this.insertTextInInput = async function(element, text) {
+            await waits.waitForVisibleElement(element);
             await element.sendKeys(text);
-            await waits.waitForVisibleElement(this.searchButton);
-            await this.searchButton.click();
         };
 
         this.getInsertedText = function(element) {
@@ -103,10 +117,36 @@ class Market_page {
             await this.categoriesButton.click();
             await waits.waitForVisibleElement(this.electronicaLink);
             await browser.actions().
-            mouseMove(this.electronicaLink).click().
+            mouseMove(this.electronicaLink).
+            click().
             perform();
             await waits.waitForVisibleElement(this.camerasLink);
             await this.camerasLink.click();
+        };
+
+        this.openHolodilnikiCategory = async function() {
+            await waits.waitForVisibleElement(this.technika);
+            await this.technika.click();
+            await waits.waitForVisibleElement(this.holodilniki);
+            await this.holodilniki.click();
+        };
+
+        this.getWidthOfHolodilnik = async function() {
+            await waits.waitForInVisibleElement(await this.processBar);
+            await waits.waitForVisibleElement(this.widthOfTheElem.first());
+            let widths = [];
+            for (let i = 0; i < await this.widthOfTheElem.count(); i++) {
+                widths.unshift(await this.widthOfTheElem.get(i).getText()); 
+            }
+            
+            let fist = widths[4].split(': ')[1];
+            let fist_value = fist.split('х')[0];  
+            let second =  widths[9].split(': ')[1];
+            let second_value = second.split('х')[0]; 
+            if(+fist_value <= 50 && +second_value <= 50) {
+                return true;
+            }
+            return false;
         };
 
         this.sortByCena = async function() {
@@ -114,9 +154,37 @@ class Market_page {
             await this.sortByCenaElem.click();
         };
 
-        this.sortArr = async function(arr) {
-            await arr.sort();
+        this.checkSortOfCena = async function(arr) {
+            await waits.waitForInVisibleElement(await this.processBar);
+            await waits.waitForVisibleElement(this.arrayOfCena.first());
+            let cenaStr = [];
+            let onlyCena = [];
+            for (let i = 0; i < await this.arrayOfCena.count(); i++) {
+                cenaStr.unshift(await this.arrayOfCena.get(i).getText());
+               
+            }
+            for (let i = 0; i < cenaStr.length; i++) {
+                onlyCena.unshift(cenaStr[i].split(' б')[0]);   
+            }
+            for (let i = 0; i < onlyCena.length; i++) {
+                if(+onlyCena[i] < +onlyCena[i+1]) {
+                    return false;
+                } else {
+                    continue;
+                }          
+              }
+            return true;
         };
+
+        this.clickOnFirstPopTrack = async function() {
+            await waits.waitForVisibleElement(this.firstTrack);
+            await browser.actions().
+            mouseMove(this.firstTrack).
+            perform();
+            await browser.sleep(5000);
+            await this.firstTrack.click();
+        };
+
     }  
 }
 module.exports = Market_page;
