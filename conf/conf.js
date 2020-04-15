@@ -7,7 +7,7 @@ exports.config = {
     capabilities: {
       'browserName': 'chrome',
       'chromeOptions': { 
-        'args': ['incognito', '--headless'],
+        'args': ['incognito', /*'--headless'*/'--window-size=3600,2025'],
         'excludeSwitches': ['enable-automation'], // - отключить infobar в chrome
         'prefs': {
           'download': {
