@@ -90,14 +90,14 @@ class Market_page {
         };
         
         this.addToElementsToCompare = async function() {
-            await waits.waitForVisibleElement(this.addToCompare1);
+            await waits.waitForPresenceElement(await this.addToCompare1);
             await browser.actions().
-            mouseMove(this.addToCompare1).  
+            mouseMove(await this.addToCompare1).  
             click(). 
             perform();
-            await waits.waitForVisibleElement(this.addToCompare2);
+            await waits.waitForPresenceElement(await this.addToCompare2);
             await browser.actions().
-            mouseMove(this.addToCompare2).  
+            mouseMove(await this.addToCompare2).  
             click(). 
             perform();
         };

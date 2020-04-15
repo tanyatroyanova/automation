@@ -43,7 +43,7 @@ fdescribe("Pull of tests #2", function() {
         expect(market_page.emptyContent.isDisplayed()).toBe(true);
     });
 
-    fit('Test 3: Яндекс маркет - сортировка по цене', async function() {
+    it('Test 3: Яндекс маркет - сортировка по цене', async function() {
         await yandex_mail.marketLink.click();
         await yandex_mail.swithToTheTab(1);
         await market_page.openElectronicCategory();
